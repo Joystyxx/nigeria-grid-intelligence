@@ -1,0 +1,44 @@
+[project]
+name = "nigeria-grid-intelligence"
+version = "0.1.0"
+description = "End-to-end data platform for Nigerian grid and mini-grid intelligence"
+requires-python = ">=3.11"
+dependencies = [
+    "dagster>=1.13",
+    "dagster-webserver>=1.13",
+    "dbt-core>=1.12",
+    "dbt-postgres>=1.12",
+    "pandas",
+    "numpy",
+    "xgboost>=3.0.1",
+    "scikit-learn",
+    "pulp",
+    "streamlit",
+    "psycopg2-binary>=2.9.11",
+    "sqlalchemy",
+    "datasets",
+    "requests",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+    "mypy",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
