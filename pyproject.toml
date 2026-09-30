@@ -6,8 +6,8 @@ requires-python = ">=3.11"
 dependencies = [
     "dagster>=1.13",
     "dagster-webserver>=1.13",
-    "dbt-core>=1.12",
-    "dbt-postgres>=1.12",
+    "dbt-core~=1.11.0",
+    "dbt-postgres~=1.11.0",
     "pandas",
     "numpy",
     "xgboost>=3.0.1",
