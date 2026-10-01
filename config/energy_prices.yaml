@@ -1,0 +1,34 @@
+# config/energy_prices.yaml
+# =============================================================
+# Nigerian Energy Price Reference
+# =============================================================
+# Verified: 2026-09-30
+# Sources:
+#   - NERC MYTO (https://nerc.gov.ng/resource-category/myto/)
+#   - NBS AGO Price Watch (https://microdata.nigerianstat.gov.ng/)
+#   - Guardian Nigeria (April 2026) — diesel generation cost
+# =============================================================
+
+grid:
+  band_a_ngn_per_kwh: 225.0          # Band A + 7.5% VAT (NERC MYTO Dec 2025)
+  weighted_avg_ngn_per_kwh: 124.30   # All-band average (NERC 2025 Annual Report)
+  emission_kg_co2_per_kwh: 0.35      # Nigeria grid emission factor
+
+diesel:
+  pump_price_ngn_per_litre: 3277.47  # NBS AGO Price Watch, May 2026
+  generation_cost_ngn_per_kwh: 600.0 # Guardian Nigeria Apr 2026 (fully loaded)
+  emission_kg_co2_per_kwh: 0.72      # IPCC diesel genset factor
+
+solar:
+  # C&I solar + battery, 25-year amortised. Midpoint of the 2026
+  # commercial range (₦90-150/kWh per SurgePV; ~₦150/kWh per
+  # BusinessDay/LinkedIn). Excludes retail service margin (WiSolar
+  # charges ₦190/kWh retail). Matches project scope: financed
+  # utility/C&I deployment with storage.
+  lcoe_ngn_per_kwh: 120.0
+  emission_kg_co2_per_kwh: 0.0       # Zero operational emissions
+
+metadata:
+  last_verified: "2026-09-30"
+  next_review_due: "2026-12-31"
+  maintainer: "project author"
