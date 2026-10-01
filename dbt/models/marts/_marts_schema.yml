@@ -1,0 +1,104 @@
+version: 2
+
+models:
+  - name: dim_substation
+    description: "One row per substation with DisCo, voltage tier, and sensor coverage."
+    columns:
+      - name: substation_key
+        tests:
+          - unique
+          - not_null
+      - name: substation_id
+        tests:
+          - unique
+          - not_null
+      - name: disco
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Ikeja
+                - Eko
+                - Abuja
+                - Kano
+                - Port Harcourt
+                - Enugu
+                - Kaduna
+                - Benin
+                - Ibadan
+                - Jos
+      - name: voltage_class
+        tests:
+          - accepted_values:
+              values: [transmission, distribution]
+
+  - name: fct_grid_events
+    description: "One row per substation-hour grid event — ML feature table."
+    columns:
+      - name: event_key
+        tests:
+          - unique
+          - not_null
+      - name: event_ts
+        tests:
+          - not_null
+      - name: substation_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_substation')
+              field: substation_id
+      - name: had_outage
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: fct_demand_accuracy
+    description: "Daily forecast accuracy by region."
+    columns:
+      - name: accuracy_key
+        tests:
+          - unique
+          - not_null
+      - name: region
+        tests:
+          - not_null
+      - name: mae_mw
+        tests:
+          - not_null
+
+  - name: fct_bess_optimization
+    description: "One row per AI grid optimisation run."
+    columns:
+      - name: optimization_key
+        tests:
+          - unique
+          - not_null
+      - name: run_id
+        tests:
+          - unique
+          - not_null
+      - name: constraint_status
+        tests:
+          - accepted_values:
+              values: [clean, minor_violations, violated]
+
+  - name: fct_minigrid_viability
+    description: "One row per settlement with 0-100 viability score."
+    columns:
+      - name: viability_key
+        tests:
+          - unique
+          - not_null
+      - name: settlement_id
+        tests:
+          - unique
+          - not_null
+      - name: viability_tier
+        tests:
+          - accepted_values:
+              values:
+                - A_highly_viable
+                - B_viable
+                - C_borderline
+                - D_not_viable

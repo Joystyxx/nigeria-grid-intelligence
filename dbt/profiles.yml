@@ -1,0 +1,13 @@
+nigeria_grid_intelligence:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('POSTGRES_HOST', 'localhost') }}"
+      port: "{{ env_var('POSTGRES_PORT', '5432') | int }}"
+      user: "{{ env_var('POSTGRES_USER', 'grid_admin') }}"
+      password: "{{ env_var('POSTGRES_PASSWORD', 'grid_password') }}"
+      dbname: "{{ env_var('POSTGRES_DB', 'grid_intelligence') }}"
+      schema: dbt_dev
+      threads: 4
+      keepalives_idle: 0

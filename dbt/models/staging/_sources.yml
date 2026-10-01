@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw ingestion layer — data straight from HF, PVGIS, OWID, DRE Atlas."
+    schema: raw
+    tables:
+      - name: grid_load
+        description: "Per-substation load MW, forecast, sensor readings (HF electricsheepafrica)."
+      - name: demand_forecast
+        description: "Per-region actual vs forecast demand with error (HF electricsheepafrica)."
+      - name: smart_grid_iot
+        description: "5-min substation telemetry: voltage, frequency, current, temperature."
+      - name: outage_logs
+        description: "Outage and fault events with causes and durations."
+      - name: ai_optimization
+        description: "Pre-computed grid optimisation runs (baseline vs optimised)."
+      - name: pvgis
+        description: "Monthly solar irradiation for Lagos, Abuja, Kano (EU JRC PVGIS)."
+      - name: owid
+        description: "Historical Nigerian energy mix and consumption (Our World in Data)."
+      - name: dre_atlas
+        description: "154k Nigerian settlements for mini-grid planning (World Bank DRE Atlas)."
