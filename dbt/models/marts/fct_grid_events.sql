@@ -41,11 +41,15 @@ joined as (
         coalesce(se.total_anomalies, 0)         as sensor_anomalies,
         coalesce(se.anomaly_pct, 0)             as sensor_anomaly_pct,
 
-        -- Outage flags
+        -- Outage flags (any severity)
         s.outage_count_this_hour,
         s.outage_minutes_this_hour,
         s.customers_affected_this_hour,
-        case when s.outage_count_this_hour > 0 then 1 else 0 end as had_outage
+        case when s.outage_count_this_hour > 0 then 1 else 0 end as had_outage,
+
+        -- Outage flags (severe: >1000 customers affected)
+        s.severe_outage_count_this_hour,
+        s.had_severe_outage
     from stability s
     left join sensor se
         on s.substation_id = se.substation_id

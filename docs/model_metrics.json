@@ -1,0 +1,48 @@
+{
+  "trained_at": "2026-10-01T13:20:43.241375+00:00",
+  "model_version": "v1",
+  "n_train": 99863,
+  "n_test": 24966,
+  "n_features": 23,
+  "positive_rate_train": 0.18872855812463074,
+  "positive_rate_test": 0.20023231594969157,
+  "auc_roc": 0.5109217416178182,
+  "precision": 0.21160252728317058,
+  "recall": 0.3684736947389478,
+  "f1": 0.26882661996497376,
+  "confusion_matrix": [
+    [
+      13104,
+      6863
+    ],
+    [
+      3157,
+      1842
+    ]
+  ],
+  "feature_importances": {
+    "avg_load_mw": 0.038897451013326645,
+    "peak_load_mw": 0.041867244988679886,
+    "forecast_error_mw": 0.037454284727573395,
+    "load_avg_6h": 0.04629187658429146,
+    "load_std_6h": 0.05102425441145897,
+    "load_avg_24h": 0.059274304658174515,
+    "load_std_24h": 0.057527896016836166,
+    "avg_frequency_hz": 0.03987859562039375,
+    "avg_freq_dev_hz": 0.03846738114953041,
+    "avg_temp_c": 0.03926566243171692,
+    "avg_humidity": 0.037650950253009796,
+    "sensor_anomalies": 0.0,
+    "sensor_anomaly_pct": 0.0,
+    "lag_load_1h": 0.040516532957553864,
+    "lag_load_6h": 0.0397665910422802,
+    "lag_load_24h": 0.041301529854536057,
+    "hour_of_day": 0.043989475816488266,
+    "day_of_week": 0.05738547816872597,
+    "month": 0.061885248869657516,
+    "is_weekend": 0.058360833674669266,
+    "hours_since_last_severe_outage": 0.05682569742202759,
+    "severe_outages_last_24h": 0.05615340545773506,
+    "severe_outages_last_7d": 0.056215278804302216
+  }
+}

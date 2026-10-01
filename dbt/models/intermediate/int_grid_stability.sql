@@ -50,13 +50,17 @@ with_rolling as (
 
 -- Aggregate outages to SUBSTATION-hour grain (not feeder-hour)
 -- so joins don't fan out when a substation has multiple feeders.
+-- Two severity tiers: any outage, and severe (>1000 customers affected).
 outage_hourly as (
     select
         date_trunc('hour', started_ts)                              as hour_ts,
         split_part(feeder_id, '-FD', 1)                             as substation_id,
         count(*)                                                    as outage_count,
         sum(duration_minutes)                                       as total_outage_minutes,
-        sum(customers_affected)                                     as total_customers_affected
+        sum(customers_affected)                                     as total_customers_affected,
+        count(*) filter (where customers_affected > 1000)           as severe_outage_count,
+        case when count(*) filter (where customers_affected > 1000) > 0
+             then 1 else 0 end                                      as had_severe_outage
     from {{ ref('stg_outages') }}
     group by 1, 2
 ),
@@ -66,7 +70,9 @@ joined as (
         w.*,
         coalesce(o.outage_count, 0)              as outage_count_this_hour,
         coalesce(o.total_outage_minutes, 0)      as outage_minutes_this_hour,
-        coalesce(o.total_customers_affected, 0)  as customers_affected_this_hour
+        coalesce(o.total_customers_affected, 0)  as customers_affected_this_hour,
+        coalesce(o.severe_outage_count, 0)       as severe_outage_count_this_hour,
+        coalesce(o.had_severe_outage, 0)         as had_severe_outage
     from with_rolling w
     left join outage_hourly o
         on w.hour_ts = o.hour_ts
