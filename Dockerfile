@@ -14,7 +14,13 @@ COPY src ./src
 COPY app ./app
 COPY dbt ./dbt
 COPY dags ./dags
+COPY scripts ./scripts
+COPY config ./config
+COPY docs ./docs
+COPY .streamlit ./.streamlit
 
 RUN pip install --no-cache-dir -e ".[dev]"
+
+RUN mkdir -p /app/dagster_home /app/models
 
 CMD ["bash"]

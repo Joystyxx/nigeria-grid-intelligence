@@ -1,0 +1,18 @@
+# Streamlit app configuration and native theme
+# Loaded automatically when running `streamlit run app/Home.py` from repo root.
+
+[theme]
+base = "light"
+primaryColor = "#F5A623"
+backgroundColor = "#FAFAFA"
+secondaryBackgroundColor = "#F0F0F0"
+textColor = "#1A1A1A"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = true
+
+[server]
+headless = true
+runOnSave = true

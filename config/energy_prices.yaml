@@ -2,11 +2,12 @@
 # =============================================================
 # Nigerian Energy Price Reference
 # =============================================================
-# Verified: 2026-09-30
+# Verified: 2026-10-03
 # Sources:
 #   - NERC MYTO (https://nerc.gov.ng/resource-category/myto/)
 #   - NBS AGO Price Watch (https://microdata.nigerianstat.gov.ng/)
 #   - Guardian Nigeria (April 2026) — diesel generation cost
+#   - SurgePV / BusinessDay (2026) — C&I solar LCOE
 # =============================================================
 
 grid:
@@ -28,7 +29,28 @@ solar:
   lcoe_ngn_per_kwh: 120.0
   emission_kg_co2_per_kwh: 0.0       # Zero operational emissions
 
+# Historical prices for multi-year economic comparison.
+# Diesel generation cost = pump price / 3.0 kWh-per-litre,
+# plus maintenance & depreciation.
+# Solar LCOE = commercial generation + battery, adjusted for FX.
+historical:
+  y2024:
+    grid_band_a_ngn_per_kwh: 209.50
+    diesel_pump_ngn_per_litre: 1441.28
+    diesel_generation_ngn_per_kwh: 480.0
+    solar_lcoe_ngn_per_kwh: 95.0
+  y2025:
+    grid_band_a_ngn_per_kwh: 209.50
+    diesel_pump_ngn_per_litre: 1813.81
+    diesel_generation_ngn_per_kwh: 605.0
+    solar_lcoe_ngn_per_kwh: 110.0
+  y2026:
+    grid_band_a_ngn_per_kwh: 225.0
+    diesel_pump_ngn_per_litre: 3277.47
+    diesel_generation_ngn_per_kwh: 600.0
+    solar_lcoe_ngn_per_kwh: 120.0
+
 metadata:
-  last_verified: "2026-09-30"
+  last_verified: "2026-10-03"
   next_review_due: "2026-12-31"
   maintainer: "project author"
