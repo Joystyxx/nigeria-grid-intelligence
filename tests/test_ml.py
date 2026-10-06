@@ -9,7 +9,6 @@ import pytest
 from grid_intelligence.config import MODELS_DIR
 from grid_intelligence.ml.features import NUMERIC_FEATURES, TARGET, build_feature_matrix
 
-
 pytestmark = pytest.mark.requires_db
 
 
