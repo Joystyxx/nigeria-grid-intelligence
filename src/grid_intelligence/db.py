@@ -5,7 +5,7 @@ into the raw schema idempotently.
 """
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 import pandas as pd
 from sqlalchemy import create_engine, text

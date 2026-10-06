@@ -8,7 +8,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from grid_intelligence.config import PROJECT_ROOT
 from grid_intelligence.db import read_df
 from grid_intelligence.theme import apply_theme
 

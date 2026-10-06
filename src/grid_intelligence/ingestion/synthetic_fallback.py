@@ -13,7 +13,7 @@ Nigerian realism baked in:
 """
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import numpy as np
 import pandas as pd
@@ -46,7 +46,7 @@ OUTAGE_CAUSES = [
 
 def _time_index() -> pd.DatetimeIndex:
     """15-minute UTC timestamps for the last DAYS days."""
-    end = datetime.now(timezone.utc).replace(second=0, microsecond=0)
+    end = datetime.now(UTC).replace(second=0, microsecond=0)
     start = end - timedelta(days=DAYS)
     return pd.date_range(start=start, end=end, freq=f"{INTERVAL_MINUTES}min", tz="UTC")
 
@@ -138,7 +138,7 @@ def generate_demand_forecast() -> pd.DataFrame:
 def generate_smart_grid_iot() -> pd.DataFrame:
     """5-minute substation telemetry: voltage, frequency, current, temperature."""
     rng = np.random.default_rng(SEED + 2)
-    end = datetime.now(timezone.utc).replace(second=0, microsecond=0)
+    end = datetime.now(UTC).replace(second=0, microsecond=0)
     start = end - timedelta(days=7)
     idx = pd.date_range(start=start, end=end, freq="5min", tz="UTC")
 
@@ -177,7 +177,7 @@ def generate_outage_logs() -> pd.DataFrame:
     end = idx.max()
     start = idx.min()
 
-    causes, weights = zip(*OUTAGE_CAUSES)
+    causes, weights = zip(*OUTAGE_CAUSES, strict=False)
     weights = np.array(weights) / sum(weights)
 
     n_events = 220

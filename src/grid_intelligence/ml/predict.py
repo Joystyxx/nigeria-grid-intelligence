@@ -7,7 +7,7 @@ Writes:  ml.grid_instability_predictions
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import joblib
 import pandas as pd
@@ -126,7 +126,7 @@ def run() -> int:
 
     output = pd.DataFrame(
         {
-            "predicted_at": datetime.now(timezone.utc),
+            "predicted_at": datetime.now(UTC),
             "event_ts": scored["event_ts"],
             "disco": scored["disco"],
             "substation_id": scored["substation_id"],

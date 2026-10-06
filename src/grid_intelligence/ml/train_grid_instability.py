@@ -7,11 +7,9 @@ and metrics to docs/model_metrics.json.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
-from pathlib import Path
+from datetime import UTC, datetime
 
 import joblib
-import numpy as np
 from sklearn.metrics import (
     confusion_matrix,
     f1_score,
@@ -93,7 +91,7 @@ def train() -> dict:
     y_proba = model.predict_proba(X_test)[:, 1]
 
     metrics = {
-        "trained_at": datetime.now(timezone.utc).isoformat(),
+        "trained_at": datetime.now(UTC).isoformat(),
         "model_version": "v1",
         "n_train": int(len(train_df)),
         "n_test": int(len(test_df)),

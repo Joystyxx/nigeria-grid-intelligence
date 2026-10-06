@@ -4,6 +4,7 @@ Main entry point. Landing page with project overview and navigation.
 Pages live in app/pages/ and are auto-discovered by Streamlit.
 """
 import streamlit as st
+
 from grid_intelligence.theme import apply_theme
 
 st.set_page_config(
@@ -13,7 +14,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-apply_theme()	
+apply_theme()
 
 st.title("⚡ Nigeria Grid & Mini-Grid Intelligence Platform")
 st.markdown(

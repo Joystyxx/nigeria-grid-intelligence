@@ -29,7 +29,7 @@ CITIES = {
 
 def _fetch_city(city: str, lat: float, lon: float) -> pd.DataFrame:
     """Fetch monthly PV output for one city from PVGIS with 3 retries."""
-    params = {
+    params: dict[str, str | int | float] = {
         "lat": lat,
         "lon": lon,
         "peakpower": 1.0,
@@ -56,6 +56,7 @@ def _fetch_city(city: str, lat: float, lon: float) -> pd.DataFrame:
             )
             time.sleep(2)
     if r is None:
+        assert last_exc is not None
         raise last_exc  # all 3 attempts failed
 
     data = r.json()

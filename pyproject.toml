@@ -34,12 +34,30 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.ruff]
-line-length = 100
-target-version = "py311"
+line-length = 120
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W", "UP", "B"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 ignore_missing_imports = true
+exclude = ["dbt/", "notebooks/"]
+
+# Modules using dynamic YAML-loaded dicts and numpy-heavy scientific code
+# where strict static typing adds limited value relative to its cost.
+[[tool.mypy.overrides]]
+module = [
+    "grid_intelligence.ingestion.synthetic_fallback",
+    "grid_intelligence.optimization.run_scenarios",
+    "grid_intelligence.optimization.run_sensitivity",
+    "grid_intelligence.optimization.run_multiyear",
+]
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "requires_db: test requires a live Postgres database (skipped in CI)",
+]

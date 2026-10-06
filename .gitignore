@@ -36,3 +36,11 @@ data/
 .idea/
 *.swp
 .DS_Store
+
+
+# Dagster runtime
+dagster_home/
+.dagster/
+
+# Private application material
+docs/chevening_framing.md

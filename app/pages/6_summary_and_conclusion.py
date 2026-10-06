@@ -5,7 +5,6 @@ and — critically — what Nigeria's energy sector must do next.
 """
 import streamlit as st
 
-from grid_intelligence.db import read_df
 from grid_intelligence.theme import apply_theme
 
 st.set_page_config(

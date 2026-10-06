@@ -1,14 +1,13 @@
 """Page 4 — Solar Mini-Grid Viability.
 
-Reads fct_minigrid_viability (154K settlements) and fct_state_summary.
-Interactive map, state ranking, and settlement drill-down.
+Reads fct_minigrid_viability (154K settlements), fct_state_summary, and
+stg_pvgis (city-level solar resource context). Interactive map, state
+ranking, and settlement drill-down.
 """
 import json
-from pathlib import Path
 
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 import streamlit as st
 
 from grid_intelligence.config import PROJECT_ROOT
@@ -80,6 +79,23 @@ def load_geojson() -> dict:
     if not path.exists():
         return {"features": []}
     return json.loads(path.read_text())
+
+
+@st.cache_data(ttl=300)
+def load_pvgis() -> pd.DataFrame:
+    sql = """
+        SELECT
+            city,
+            month_num,
+            daily_irradiance_kwh_m2,
+            monthly_irradiance_kwh_m2,
+            daily_energy_kwh,
+            monthly_energy_kwh,
+            source
+        FROM dbt_dev_staging.stg_pvgis
+        ORDER BY city, month_num
+    """
+    return read_df(sql)
 
 
 # ---- Load data ----
@@ -364,6 +380,52 @@ if not state_data.empty:
         "Viability score",
     ]
     st.dataframe(top10, use_container_width=True, hide_index=True)
+
+st.divider()
+
+# ---- City-level solar resource (PVGIS) ----
+st.subheader("City-Level Solar Resource")
+st.caption(
+    "Monthly solar irradiation from the EU JRC PVGIS API for Nigeria's three "
+    "reference climate zones. Complements the per-settlement solar values in "
+    "the DRE Atlas data above."
+)
+
+try:
+    pvgis = load_pvgis()
+    month_names = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    ]
+    pvgis["month_label"] = pvgis["month_num"].apply(lambda m: month_names[m - 1])
+
+    fig_solar = px.bar(
+        pvgis,
+        x="month_label",
+        y="daily_irradiance_kwh_m2",
+        color="city",
+        barmode="group",
+        labels={
+            "daily_irradiance_kwh_m2": "Daily irradiation (kWh/m²)",
+            "month_label": "Month",
+            "city": "City",
+        },
+        color_discrete_map={
+            "Lagos": "#3498db",
+            "Abuja": "#9b59b6",
+            "Kano": "#F5A623",
+        },
+    )
+    fig_solar.update_layout(height=350, margin=dict(l=20, r=20, t=20, b=20))
+    st.plotly_chart(fig_solar, use_container_width=True)
+
+    st.caption(
+        "Kano (Sahel zone) receives the highest solar resource year-round, "
+        "consistent with its dominance in viable mini-grid settlements. "
+        "Lagos (coastal, humid) has the lowest. Data: EU JRC PVGIS API."
+    )
+except Exception as e:
+    st.info(f"PVGIS data not available: {e}")
 
 st.caption(
     "Data: World Bank DRE Atlas (154,319 settlements) · "

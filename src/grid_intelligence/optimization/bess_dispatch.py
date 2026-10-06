@@ -32,7 +32,6 @@ from pulp import (
     COIN_CMD,
     LpMinimize,
     LpProblem,
-    LpSolveStatus,
     lpSum,
     value,
 )

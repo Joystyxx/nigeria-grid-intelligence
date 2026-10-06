@@ -11,8 +11,7 @@ ARE learnable because load is highly autocorrelated.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
-from pathlib import Path
+from datetime import UTC, datetime
 
 import joblib
 import pandas as pd
@@ -138,7 +137,7 @@ def train() -> dict:
     y_proba = model.predict_proba(X_test)[:, 1]
 
     metrics = {
-        "trained_at": datetime.now(timezone.utc).isoformat(),
+        "trained_at": datetime.now(UTC).isoformat(),
         "model_version": "v1",
         "model_name": "load_spike",
         "target": TARGET,

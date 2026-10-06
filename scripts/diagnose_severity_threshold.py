@@ -25,7 +25,6 @@ events = read_df("""
 """)
 print(f"Grid event rows: {len(events)}")
 
-import pandas as pd
 
 # Merge events with outage info (left join on substation + hour)
 merged = events.merge(agg, on=["substation_id", "hour_ts"], how="left")
