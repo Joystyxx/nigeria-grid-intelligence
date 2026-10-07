@@ -29,7 +29,6 @@ models/*.joblib
 # Data
 data/
 *.parquet
-*.geojson
 
 # IDE
 .vscode/
@@ -44,3 +43,7 @@ dagster_home/
 
 # Private application material
 docs/chevening_framing.md
+
+# Private drafts and personal material
+docs/linkedin_post.md
+docs/portfolio_card.md
