@@ -47,3 +47,7 @@ docs/chevening_framing.md
 # Private drafts and personal material
 docs/linkedin_post.md
 docs/portfolio_card.md
+
+# Local installers (should never be committed)
+*.exe
+*.msi
