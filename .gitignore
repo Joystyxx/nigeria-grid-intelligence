@@ -51,3 +51,11 @@ docs/portfolio_card.md
 # Local installers (should never be committed)
 *.exe
 *.msi
+
+
+# Local working files (large, not for repo)
+grid_dump.sql
+grid_dump.tar.gz
+chunk_*.bin
+split_file.py
+upload_chunks.bat

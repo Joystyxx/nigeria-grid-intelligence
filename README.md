@@ -7,6 +7,9 @@ End-to-end data platform that ingests Nigerian grid, demand, outage, solar, and 
 [![dbt](https://img.shields.io/badge/dbt-1.11-orange.svg)](https://www.getdbt.com/)
 [![Dagster](https://img.shields.io/badge/dagster-1.13-purple.svg)](https://dagster.io/)
 [![Docker](https://img.shields.io/badge/docker-compose-2496ED.svg)](https://www.docker.com/)
+[![Deployed on AWS](https://img.shields.io/badge/Deployed_on-AWS_EC2-FF9900?logo=amazonaws)](https://aws.amazon.com/ec2/)
+
+**Live demo:** [http://51.21.191.10:8501](http://51.21.191.10:8501) — deployed on AWS EC2 (t3.micro, eu-north-1)
 
 ---
 
@@ -108,11 +111,14 @@ Every ingester has a synthetic fallback for source failures. See [docs/architect
 | Optimisation | PuLP 4.0 + CBC solver |
 | Visualisation | Streamlit, Plotly |
 | Containerisation | Docker, Docker Compose |
+| Cloud Deployment | AWS EC2 (t3.micro, eu-north-1) |
 | CI | GitHub Actions (ruff, mypy, pytest) |
 
 ---
 
 ## Quick Start
+
+Run the full stack locally:
 
 ```bash
 git clone https://github.com/Joystyxx/nigeria-grid-intelligence.git
@@ -127,6 +133,22 @@ Once running:
 - **Streamlit dashboard** at http://localhost:8501
 - **Dagster orchestration** at http://localhost:3000
 - **PostgreSQL** at localhost:5432
+
+---
+
+## Deployment
+
+The dashboard is deployed on **AWS EC2** (t3.micro, eu-north-1) using a reduced Compose file (`docker-compose.prod.yml`) that runs only PostgreSQL and Streamlit. Dagster stays local for development — it is intentionally not exposed publicly, since the open-source Dagster webserver has no built-in authentication.
+
+Deployment steps:
+
+1. Provision an Ubuntu/Debian-free Amazon Linux 2023 instance with Docker and Docker Compose
+2. Clone the repository and configure `.env`
+3. Build and start the production stack: `docker compose -f docker-compose.prod.yml up -d`
+4. Restore the seeded database dump into the containerized PostgreSQL
+5. Open port 8501 to the public internet via the EC2 security group
+
+To reproduce the full pipeline (including Dagster), run `docker compose up` locally.
 
 ---
 
@@ -145,7 +167,8 @@ nigeria-grid-intelligence/
 │   ├── ml/               Features, training, prediction, stress scoring
 │   └── optimization/     BESS dispatch, sensitivity, multi-year analysis
 ├── tests/                pytest suite
-├── docker-compose.yml
+├── docker-compose.yml          Full local stack (Postgres + Dagster + Streamlit)
+├── docker-compose.prod.yml     Lightweight EC2 deployment (Postgres + Streamlit)
 └── pyproject.toml
 ```
 
@@ -168,7 +191,7 @@ The platform uses the best publicly available Nigerian energy data, and that dat
 ## Testing
 
 ```bash
-pytest tests/                    # all 13 tests (needs Postgres running)
+pytest tests/                       # all 13 tests (needs Postgres running)
 pytest tests/ -m "not requires_db"  # CI subset (no DB needed)
 ```
 
@@ -184,5 +207,5 @@ MIT.
 
 ## Contact
 
-**Olawale Afolayan**, Lagos
-[GitHub @Joystyxx](https://github.com/Joystyxx) · [Repository](https://github.com/Joystyxx/nigeria-grid-intelligence)
+**Olawale Afolayan** , Lagos
+[GitHub @Joystyxx](https://github.com/Joystyxx) · [Repository](https://github.com/Joystyxx/nigeria-grid-intelligence) · [Live Demo](http://51.21.191.10:8501)
